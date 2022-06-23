@@ -45,7 +45,31 @@
 
             <section class="bg-slate-800 px-4 py-5 mt-4 mb-8 rounded-lg shadow-lg space-y-6">
                 <div x-html="inputTemplate('Weight', 'weight', 'weight')"></div>
-                <div x-html="inputTemplate('Reps', 'reps', 'reps')"></div>
+                <label for="weight" class="block  font-medium text-sky-300">Weight</label>
+                <input
+                    id="weight"
+                    min="1"
+                    x-model.number="weight"
+                    inputmode="numeric"
+                    x-on:keyup.debounce="clearParams(), updateShareLink()"
+                    class=" w-full mt-1 border-none focus:ring-slate-500 focus:border-slate-500 outline-none block items-center px-3 py-4 rounded-none rounded-md  bg-slate-700 text-slate-50 text-sm">
+
+
+                <label for="reps" class="block  font-medium text-sky-300">Reps</label>
+                <select name="reps" id="reps" x-model="reps"
+                    class="w-full mt-1 border-none focus:ring-slate-500 focus:border-slate-500 outline-none block items-center px-3 py-4 rounded-none rounded-md  bg-slate-700 text-slate-50 text-sm">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+
+                </select>
             </section>
         </div>
 
@@ -212,25 +236,6 @@
                 }
             },
 
-            inputTemplate(label, name, val, readOnly = false) {
-                let readOnlyAttr = (readOnly) ? 'readonly' : '';
-                let cursorClass = (readOnly) ? 'cursor-not-allowed' : '';
-                return `
-                    <div class="w-full">
-                        <label for="${name}" class="block  font-medium text-sky-300">${label}</label>
-                        <input 
-                            id="${name}" 
-                            ${readOnlyAttr} 
-                            min="1" 
-                            placeholder="0.00" 
-                            x-model.number="${val}" 
-                            inputmode="numeric"
-                            
-                            x-on:keyup.debounce="clearParams(), updateShareLink()"
-                            class="${cursorClass} w-full mt-1 border-none focus:ring-slate-500 focus:border-slate-500 outline-none block items-center px-3 py-4 rounded-none rounded-md  bg-slate-700 text-slate-50 text-sm">
-                    </div>
-                `;
-            },
 
             calc(rpe) {
                 value = Math.round(this.weight * this.rpeScale[rpe][this.reps] / 5) * 5
@@ -279,6 +284,7 @@
                 }
             },
 
+            isClicked: false,
             isClicked: false,
             buttonAnimate() {
                 this.isClicked = true;
